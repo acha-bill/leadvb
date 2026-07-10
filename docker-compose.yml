@@ -1,0 +1,78 @@
+services:
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: leadqualifier
+      MYSQL_USER: app
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-app}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uapp", "-p${MYSQL_PASSWORD:-app}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: "8080"
+      DB_DSN: "app:${MYSQL_PASSWORD:-app}@tcp(mysql:3306)/leadqualifier?parseTime=true&charset=utf8mb4"
+      JWT_SECRET: ${JWT_SECRET:-dev-insecure-secret-change-me}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://localhost:8080}
+      DASHBOARD_ORIGIN: ${DASHBOARD_ORIGIN:-http://localhost:8081}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      AI_PROVIDER: ${AI_PROVIDER:-mock}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4o-mini}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-claude-haiku-4-5-20251001}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-Lead Qualifier <no-reply@localhost>}
+      DEFAULT_PLAN: ${DEFAULT_PLAN:-professional}
+      ENFORCE_QUOTAS: ${ENFORCE_QUOTAS:-false}
+      MANUAL_SCREEN_MINUTES: ${MANUAL_SCREEN_MINUTES:-9}
+      IDLE_ABANDON_MINUTES: ${IDLE_ABANDON_MINUTES:-30}
+      MAX_MESSAGES_PER_CONV: ${MAX_MESSAGES_PER_CONV:-60}
+      FEATURE_PROACTIVE_TRIGGERS: ${FEATURE_PROACTIVE_TRIGGERS:-true}
+      FEATURE_EXIT_INTENT: ${FEATURE_EXIT_INTENT:-true}
+      FEATURE_QUICK_REPLIES: ${FEATURE_QUICK_REPLIES:-true}
+      FEATURE_EMAIL_DELIVERY: ${FEATURE_EMAIL_DELIVERY:-true}
+      FEATURE_SLACK_DELIVERY: ${FEATURE_SLACK_DELIVERY:-true}
+      FEATURE_WEBHOOK_DELIVERY: ${FEATURE_WEBHOOK_DELIVERY:-true}
+      FEATURE_WEEKLY_REPORTS: ${FEATURE_WEEKLY_REPORTS:-true}
+      FEATURE_PUBLIC_API: ${FEATURE_PUBLIC_API:-true}
+      FEATURE_HANDOFF: ${FEATURE_HANDOFF:-true}
+      FEATURE_MULTILANG: ${FEATURE_MULTILANG:-true}
+
+  dashboard:
+    build: ./dashboard
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "8081:80"
+
+  site:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    volumes:
+      - ./site:/usr/share/nginx/html:ro
+    ports:
+      - "8082:80"
+
+volumes:
+  mysql_data:

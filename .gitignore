@@ -1,0 +1,7 @@
+.env
+.DS_Store
+node_modules/
+dashboard/dist/
+backend/leadqualifier
+backend/server
+*.log

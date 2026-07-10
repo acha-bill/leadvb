@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lead Qualifier — AI chat that qualifies your website leads</title>
+<meta name="description" content="An always-on AI assistant for small B2B service businesses. It chats with visitors, qualifies them against your ideal customer profile, and sends only real leads to your inbox, Slack or CRM.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+<style>
+:root{
+  --bg:#050505;
+  --ink:#f5f5f7;
+  --ink-2:#a3a3ad;
+  --muted:#6e6e78;
+  --hair:rgba(255,255,255,.09);
+  --accent:#8b7cf8;
+  --accent-soft:#b9aefc;
+  --accent-2:#34d399;
+  --ease:cubic-bezier(.32,.72,0,1);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--ink);
+  font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+.ic{width:1em;height:1em;fill:currentColor;display:inline-block;vertical-align:-.12em;flex:0 0 auto}
+
+.orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5}
+.orb.a{width:560px;height:560px;background:radial-gradient(circle,#4c3aed66,transparent 70%);top:-180px;left:-120px}
+.orb.b{width:480px;height:480px;background:radial-gradient(circle,#10b98140,transparent 70%);top:32%;right:-160px}
+.orb.c{width:520px;height:520px;background:radial-gradient(circle,#6d28d94d,transparent 70%);bottom:-200px;left:28%}
+.wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 24px}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:40;display:flex;justify-content:center;pointer-events:none}
+.nav-pill{
+  pointer-events:auto;margin-top:24px;display:flex;align-items:center;gap:28px;
+  background:rgba(10,10,12,.6);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid var(--hair);border-radius:999px;padding:10px 12px 10px 22px;
+}
+.nav-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:14px;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+.nav-dot{width:22px;height:22px;border-radius:8px;background:linear-gradient(135deg,#8b7cf8,#5b3df5);box-shadow:0 0 18px #8b7cf877;display:flex;align-items:center;justify-content:center}
+.nav-dot .ic{width:13px;height:13px;color:#fff}
+.nav-links{display:flex;gap:22px;font-size:13.5px}
+.nav-links a{color:var(--ink-2);text-decoration:none;font-weight:600;transition:color .4s var(--ease)}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#0b0b0d;text-decoration:none;
+  font-weight:700;font-size:13px;border-radius:999px;padding:8px 8px 8px 18px;
+  transition:transform .4s var(--ease);
+}
+.nav-cta:hover{transform:translateY(-1px)}
+.nav-cta:active{transform:scale(.98)}
+.orb-btn{width:26px;height:26px;border-radius:999px;background:rgba(0,0,0,.12);display:inline-flex;align-items:center;justify-content:center;transition:transform .4s var(--ease)}
+.orb-btn .ic{width:12px;height:12px}
+.nav-cta:hover .orb-btn{transform:translate(2px,-1px) scale(1.05)}
+@media(max-width:720px){.nav-links{display:none}.nav-pill{gap:16px}}
+
+.hero.wrap{padding:196px 24px 128px;text-align:center}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 14px;font-size:10px;text-transform:uppercase;
+  letter-spacing:.22em;font-weight:600;color:#c4b9ff;
+  background:rgba(139,124,248,.1);border:1px solid rgba(139,124,248,.25);
+}
+.eyebrow .ic{width:12px;height:12px;letter-spacing:0}
+h1{
+  font-size:clamp(38px,6.4vw,72px);font-weight:800;letter-spacing:-.035em;line-height:1.06;
+  margin-top:26px;
+  background:linear-gradient(180deg,#fff 30%,#b9b6d9);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p{max-width:56ch;margin:26px auto 0;color:var(--ink-2);font-size:clamp(16px,1.8vw,19px)}
+.hero-ctas{display:flex;gap:14px;justify-content:center;margin-top:40px;flex-wrap:wrap}
+.cta{
+  display:inline-flex;align-items:center;gap:12px;text-decoration:none;border-radius:999px;
+  padding:13px 12px 13px 26px;font-weight:700;font-size:15px;
+  background:linear-gradient(135deg,#8b7cf8,#5b3df5);color:#fff;
+  box-shadow:0 0 0 1px rgba(255,255,255,.12) inset,0 18px 44px rgba(91,61,245,.42);
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease);
+}
+.cta:hover{transform:translateY(-2px);box-shadow:0 0 0 1px rgba(255,255,255,.16) inset,0 24px 60px rgba(91,61,245,.5)}
+.cta:active{transform:scale(.98)}
+.cta .orb-btn{width:30px;height:30px;background:rgba(255,255,255,.16)}
+.cta .orb-btn .ic{width:13px;height:13px}
+.cta:hover .orb-btn{transform:translate(2px,-2px) scale(1.06)}
+.cta.ghost{background:rgba(255,255,255,.05);box-shadow:0 0 0 1px var(--hair) inset;color:var(--ink);padding:13px 26px}
+.cta.ghost:hover{box-shadow:0 0 0 1px rgba(255,255,255,.2) inset}
+.hero-note{margin-top:20px;font-size:13px;color:var(--muted)}
+
+.shellcard{background:rgba(255,255,255,.045);border:1px solid var(--hair);border-radius:32px;padding:8px}
+.innercard{
+  background:rgba(12,12,16,.85);border-radius:24px;padding:36px;height:100%;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.07);
+}
+.chatdemo{max-width:760px;margin:96px auto 0;text-align:left}
+.chatdemo .innercard{padding:0;overflow:hidden}
+.chat-head{display:flex;align-items:center;gap:12px;padding:18px 24px;border-bottom:1px solid var(--hair)}
+.chat-avatar{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,#8b7cf8,#5b3df5);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.chat-avatar .ic{width:19px;height:19px;color:#fff}
+.chat-head b{font-size:14px}.chat-head span{display:block;font-size:11.5px;color:var(--accent-2)}
+.chat-body{padding:26px 24px 20px;display:flex;flex-direction:column;gap:12px;font-size:14.5px}
+.msg{max-width:78%;padding:11px 16px;border-radius:18px;line-height:1.5;opacity:0;transform:translateY(14px);animation:pop .7s var(--ease) forwards}
+.msg.bot{background:rgba(255,255,255,.06);border:1px solid var(--hair);border-bottom-left-radius:6px}
+.msg.you{align-self:flex-end;background:linear-gradient(135deg,#8b7cf8,#5b3df5);border-bottom-right-radius:6px}
+.msg:nth-child(1){animation-delay:.3s}.msg:nth-child(2){animation-delay:.9s}.msg:nth-child(3){animation-delay:1.5s}
+.msg:nth-child(4){animation-delay:2.1s}.msg:nth-child(5){animation-delay:2.7s}
+.chat-verdict{
+  display:flex;align-items:flex-start;gap:10px;
+  margin:0 24px 24px;padding:14px 18px;border-radius:16px;font-size:13.5px;line-height:1.5;
+  background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.3);color:#a7f3d0;
+  opacity:0;transform:translateY(14px);animation:pop .7s var(--ease) 3.3s forwards;
+}
+.chat-verdict .ic{width:16px;height:16px;margin-top:3px;color:var(--accent-2)}
+@keyframes pop{to{opacity:1;transform:none}}
+
+section.wrap{padding:112px 24px}
+.sec-head{max-width:640px;margin-bottom:56px}
+.sec-head.center{margin-inline:auto;text-align:center}
+h2{font-size:clamp(28px,4vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1.12;margin-top:18px}
+.sec-head p{color:var(--ink-2);margin-top:16px;font-size:17px}
+
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.b-8{grid-column:span 8}.b-4{grid-column:span 4}.b-6{grid-column:span 6}
+@media(max-width:860px){
+  .b-8,.b-4,.b-6{grid-column:span 12}
+  section.wrap{padding:76px 24px}
+  section.final{padding:96px 24px 88px}
+  .hero.wrap{padding:150px 24px 88px}
+  .innercard{padding:28px}
+  .sec-head{margin-bottom:40px}
+}
+.feat-ic{
+  width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  background:rgba(139,124,248,.12);border:1px solid rgba(139,124,248,.25);margin-bottom:22px;
+}
+.feat-ic .ic{width:22px;height:22px;color:var(--accent-soft)}
+.innercard h3{font-size:19px;font-weight:700;letter-spacing:-.01em;margin-bottom:10px}
+.innercard>p{color:var(--ink-2);font-size:14.5px}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+.steps .step{display:flex;gap:22px;align-items:flex-start;padding:26px 0;border-bottom:1px solid var(--hair)}
+.steps .step:first-child{padding-top:0}
+.steps .step:last-child{border-bottom:none;padding-bottom:0}
+.step-n{
+  flex:0 0 auto;width:44px;height:44px;border-radius:999px;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:15px;background:rgba(255,255,255,.05);border:1px solid var(--hair);
+}
+.step b{font-size:16.5px}.step p{color:var(--ink-2);font-size:14.5px;margin-top:4px;max-width:56ch}
+.step .t{margin-left:auto;flex:0 0 auto;font-size:12.5px;color:var(--muted);font-weight:600;padding-top:12px}
+@media(max-width:600px){.step .t{display:none}}
+
+.pricing{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:stretch}
+@media(max-width:1000px){.pricing{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.pricing{grid-template-columns:1fr}}
+.price-card{position:relative}
+.price-card .innercard{display:flex;flex-direction:column;padding:30px 28px}
+.price-card.hot .innercard{box-shadow:inset 0 1px 1px rgba(255,255,255,.07),0 0 44px rgba(139,124,248,.13)}
+.price-tag{font-size:34px;font-weight:800;letter-spacing:-.02em;margin:16px 0 4px}
+.price-tag span{font-size:14px;color:var(--muted);font-weight:600}
+.plan-name{font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-2);font-weight:700}
+.plan-hot{position:absolute;top:-12px;left:50%;transform:translateX(-50%);z-index:2;background:linear-gradient(135deg,#8b7cf8,#5b3df5);border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;white-space:nowrap;box-shadow:0 8px 20px rgba(91,61,245,.4)}
+.price-card ul{list-style:none;padding:0;margin:22px 0 28px;display:flex;flex-direction:column;gap:11px;font-size:14px;color:var(--ink-2)}
+.price-card li{display:flex;align-items:flex-start;gap:10px}
+.price-card li .ic{width:14px;height:14px;margin-top:4px;color:var(--accent-2)}
+.price-card .cta{margin-top:auto;justify-content:center;font-size:14px;padding:12px 20px}
+
+.faq details{border-bottom:1px solid var(--hair);padding:22px 0}
+.faq details:first-child{padding-top:4px}
+.faq details:last-child{border-bottom:none;padding-bottom:4px}
+.faq summary{cursor:pointer;font-weight:700;font-size:16.5px;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';font-size:22px;color:var(--muted);transition:transform .4s var(--ease);flex:0 0 auto}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--ink-2);margin-top:12px;font-size:15px;max-width:70ch}
+
+section.final{padding:136px 24px 128px;text-align:center}
+.final h2{max-width:20ch;margin:18px auto 0}
+footer{border-top:1px solid var(--hair);padding:38px 0;font-size:13px;color:var(--muted)}
+.foot-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+footer a{color:var(--ink-2);text-decoration:none}
+footer a:hover{color:var(--ink)}
+</style>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+<symbol id="i-arrow" viewBox="0 0 256 256"><path d="M198,64V168a6,6,0,0,1-12,0V78.48L68.24,196.24a6,6,0,0,1-8.48-8.48L177.52,70H88a6,6,0,0,1,0-12H192A6,6,0,0,1,198,64Z"/></symbol>
+<symbol id="i-check" viewBox="0 0 256 256"><path d="M228.24,76.24l-128,128a6,6,0,0,1-8.48,0l-56-56a6,6,0,0,1,8.48-8.48L96,191.51,219.76,67.76a6,6,0,0,1,8.48,8.48Z"/></symbol>
+<symbol id="i-chat" viewBox="0 0 256 256"><path d="M138,128a10,10,0,1,1-10-10A10,10,0,0,1,138,128ZM84,118a10,10,0,1,0,10,10A10,10,0,0,0,84,118Zm88,0a10,10,0,1,0,10,10A10,10,0,0,0,172,118Zm58,10A102,102,0,0,1,79.31,217.65L44.44,229.27a14,14,0,0,1-17.71-17.71l11.62-34.87A102,102,0,1,1,230,128Zm-12,0A90,90,0,1,0,50.08,173.06a6,6,0,0,1,.5,4.91L38.12,215.35a2,2,0,0,0,2.53,2.53L78,205.42a6.2,6.2,0,0,1,1.9-.31,6.09,6.09,0,0,1,3,.81A90,90,0,0,0,218,128Z"/></symbol>
+<symbol id="i-target" viewBox="0 0 256 256"><path d="M220.06,84a102.06,102.06,0,1,1-24.31-32.27l24-24a6,6,0,0,1,8.48,8.49l-96,96a6,6,0,1,1-8.48-8.49l29.39-29.4a42,42,0,1,0,16.78,31.24,6,6,0,1,1,12-.68A54,54,0,1,1,161.7,85.83l25.54-25.55a89.91,89.91,0,1,0,22,28.93A6,6,0,1,1,220.06,84Z"/></symbol>
+<symbol id="i-lightning" viewBox="0 0 256 256"><path d="M213.84,118.63a6,6,0,0,0-3.73-4.25L150.88,92.17l15-75a6,6,0,0,0-10.27-5.27l-112,120a6,6,0,0,0,2.28,9.71l59.23,22.21-15,75a6,6,0,0,0,3.14,6.52A6.07,6.07,0,0,0,96,246a6,6,0,0,0,4.39-1.91l112-120A6,6,0,0,0,213.84,118.63ZM106,220.46l11.85-59.28a6,6,0,0,0-3.77-6.8l-55.6-20.85,91.46-98L138.12,94.82a6,6,0,0,0,3.77,6.8l55.6,20.85Z"/></symbol>
+<symbol id="i-brain" viewBox="0 0 256 256"><path d="M246,124a54.13,54.13,0,0,0-32-49.33V72a46,46,0,0,0-86-22.67A46,46,0,0,0,42,72v2.67a54,54,0,0,0,0,98.63V176a46,46,0,0,0,86,22.67A46,46,0,0,0,214,176v-2.7A54.07,54.07,0,0,0,246,124ZM88,210a34,34,0,0,1-34-32.94A53.67,53.67,0,0,0,64,178h8a6,6,0,0,0,0-12H64A42,42,0,0,1,50,84.39a6,6,0,0,0,4-5.66V72a34,34,0,0,1,68,0v73.05A45.89,45.89,0,0,0,88,130a6,6,0,0,0,0,12,34,34,0,0,1,0,68Zm104-44h-8a6,6,0,0,0,0,12h8a53.67,53.67,0,0,0,10-.94A34,34,0,1,1,168,142a6,6,0,0,0,0-12,45.89,45.89,0,0,0-34,15.05V72a34,34,0,0,1,68,0v6.73a6,6,0,0,0,4,5.66A42,42,0,0,1,192,166Zm14-54a6,6,0,0,1-6,6h-4a34,34,0,0,1-34-34V80a6,6,0,0,1,12,0v4a22,22,0,0,0,22,22h4A6,6,0,0,1,206,112ZM60,118H56a6,6,0,0,1,0-12h4A22,22,0,0,0,82,84V80a6,6,0,0,1,12,0v4A34,34,0,0,1,60,118Z"/></symbol>
+<symbol id="i-wave" viewBox="0 0 256 256"><path d="M218.44,101,201.13,71a26,26,0,0,0-45.58,1L136.47,39a26,26,0,0,0-46.14,2.19A26,26,0,0,0,49.88,73l3.29,5.7a26,26,0,0,0-23.69,39L69.5,187a85.44,85.44,0,0,0,52.21,40.08,86.71,86.71,0,0,0,22.4,3,86,86,0,0,0,74.33-129Zm-3,62.16A74,74,0,0,1,79.89,181l-40-69.32a14,14,0,0,1,24.25-14L83.36,131a6,6,0,0,0,10.39-6L60.27,67A14,14,0,1,1,84.52,53l31.17,54a6,6,0,0,0,5.2,3,5.9,5.9,0,0,0,3-.81,6,6,0,0,0,2.2-8.2L101.83,59a14,14,0,0,1,24.25-14l34.2,59.23a46,46,0,0,0-6.4,59.13,6,6,0,0,0,9.94-6.73,34,34,0,0,1,7.76-46.26,6,6,0,0,0,1.6-7.8L166.49,91a14,14,0,1,1,24.25-14l17.31,30A73.53,73.53,0,0,1,215.44,163.14ZM186.18,32.22A6,6,0,0,1,193.52,28a57.59,57.59,0,0,1,35.32,27l.33.57a6,6,0,1,1-10.39,6l-.33-.57a45.69,45.69,0,0,0-28-21.43A6,6,0,0,1,186.18,32.22ZM79.32,235.71a6,6,0,0,1-8.42,1A117.79,117.79,0,0,1,41.79,203a6,6,0,0,1,10.4-6,105.48,105.48,0,0,0,26.14,30.29A6,6,0,0,1,79.32,235.71Z"/></symbol>
+<symbol id="i-plugs" viewBox="0 0 256 256"><path d="M236.24,19.76a6,6,0,0,0-8.48,0L173.94,73.57l-6.79-6.78a30,30,0,0,0-42.42,0L100,91.51l-7.76-7.75a6,6,0,0,0-8.48,8.48L91.51,100,66.79,124.73a30,30,0,0,0,0,42.42l6.78,6.79L19.76,227.76a6,6,0,1,0,8.48,8.48l53.82-53.81,6.79,6.78a30,30,0,0,0,42.42,0L156,164.49l7.76,7.75a6,6,0,0,0,8.48-8.48L164.49,156l24.72-24.73a30,30,0,0,0,0-42.42l-6.78-6.79,53.81-53.82A6,6,0,0,0,236.24,19.76Zm-113.45,161a18,18,0,0,1-25.46,0L75.27,158.67a18,18,0,0,1,0-25.46L100,108.49,147.51,156Zm57.94-57.94L156,147.51,108.49,100l24.72-24.73a18,18,0,0,1,25.46,0l22.06,22.06a18,18,0,0,1,0,25.46ZM90.43,34.23a6,6,0,0,1,11.14-4.46l8,20a6,6,0,1,1-11.14,4.46Zm-64,59.54a6,6,0,0,1,7.8-3.34l20,8a6,6,0,1,1-4.46,11.14l-20-8A6,6,0,0,1,26.43,93.77Zm203.14,68.46a6,6,0,0,1-7.8,3.34l-20-8a6,6,0,0,1,4.46-11.14l20,8A6,6,0,0,1,229.57,162.23Zm-64,59.54a6,6,0,1,1-11.14,4.46l-8-20a6,6,0,0,1,11.14-4.46Z"/></symbol>
+<symbol id="i-chart" viewBox="0 0 256 256"><path d="M230,208a6,6,0,0,1-6,6H32a6,6,0,0,1-6-6V48a6,6,0,0,1,12,0V161.52l53.76-53.76a6,6,0,0,1,8.48,0L128,135.51,185.52,78H160a6,6,0,0,1,0-12h40a6,6,0,0,1,6,6v40a6,6,0,0,1-12,0V86.48l-61.76,61.76a6,6,0,0,1-8.48,0L96,120.49l-58,58V202H224A6,6,0,0,1,230,208Z"/></symbol>
+<symbol id="i-globe" viewBox="0 0 256 256"><path d="M128,26A102,102,0,1,0,230,128,102.12,102.12,0,0,0,128,26Zm90,102a89.55,89.55,0,0,1-7.46,35.86l-46.69-28.71a13.94,13.94,0,0,0-5.46-2l-22.82-3.07A14.06,14.06,0,0,0,121.06,138h-9.92a2,2,0,0,1-1.8-1.13l-3.8-7.86a13.94,13.94,0,0,0-9.66-7.59l-10.71-2.3L94.4,103a2,2,0,0,1,1.74-1h16.71a13.9,13.9,0,0,0,6.76-1.75l12.25-6.75a14.73,14.73,0,0,0,2.62-1.88l26.91-24.33a13.93,13.93,0,0,0,2.83-17.21L161,44.25A90.16,90.16,0,0,1,218,128ZM144.6,39.54l9.15,16.39a2,2,0,0,1-.41,2.46L126.43,82.72a1.84,1.84,0,0,1-.37.27l-12.25,6.76a2,2,0,0,1-1,.25H96.14A14,14,0,0,0,84,97L73.18,115.91a2,2,0,0,1-.19-.35L61.5,84.89a2,2,0,0,1,0-1.48L72.68,57.06A89.9,89.9,0,0,1,144.6,39.54ZM38,128A89.52,89.52,0,0,1,49.38,84.23a13.85,13.85,0,0,0,.89,4.87l11.49,30.67a13.94,13.94,0,0,0,10.16,8.78l21.44,4.6a2,2,0,0,1,1.38,1.09l3.8,7.86a14.07,14.07,0,0,0,12.6,7.9h4.56l-8.49,19a14,14,0,0,0,2.51,15.2l.1.11,19.68,20.26a2,2,0,0,1,.46,1.7L127.7,218A90.1,90.1,0,0,1,38,128Zm102.08,89.19,1.67-8.6a14.07,14.07,0,0,0-3.47-12.16l-.1-.11L118.5,176.06a2,2,0,0,1-.33-2.14l13.7-30.73A2,2,0,0,1,134,142l22.82,3.08a2,2,0,0,1,.78.27L205,174.55A90.18,90.18,0,0,1,140.08,217.19Z"/></symbol>
+<symbol id="i-tag" viewBox="0 0 256 256"><path d="M241.91,137.42,142.59,38.1a13.94,13.94,0,0,0-9.9-4.1H40a6,6,0,0,0-6,6v92.69a13.94,13.94,0,0,0,4.1,9.9l99.32,99.32a14,14,0,0,0,19.8,0l84.69-84.69A14,14,0,0,0,241.91,137.42Zm-8.49,11.31-84.69,84.69a2,2,0,0,1-2.83,0L46.59,134.1a2,2,0,0,1-.59-1.41V46h86.69a2,2,0,0,1,1.41.59l99.32,99.31A2,2,0,0,1,233.42,148.73ZM94,84A10,10,0,1,1,84,74,10,10,0,0,1,94,84Z"/></symbol>
+<symbol id="i-sparkle" viewBox="0 0 256 256"><path d="M196.89,130.94,144.4,111.6,125.06,59.11a13.92,13.92,0,0,0-26.12,0L79.6,111.6,27.11,130.94a13.92,13.92,0,0,0,0,26.12L79.6,176.4l19.34,52.49a13.92,13.92,0,0,0,26.12,0L144.4,176.4l52.49-19.34a13.92,13.92,0,0,0,0-26.12Zm-4.15,14.86-55.08,20.3a6,6,0,0,0-3.56,3.56l-20.3,55.08a1.92,1.92,0,0,1-3.6,0L89.9,169.66a6,6,0,0,0-3.56-3.56L31.26,145.8a1.92,1.92,0,0,1,0-3.6l55.08-20.3a6,6,0,0,0,3.56-3.56l20.3-55.08a1.92,1.92,0,0,1,3.6,0l20.3,55.08a6,6,0,0,0,3.56,3.56l55.08,20.3a1.92,1.92,0,0,1,0,3.6ZM146,40a6,6,0,0,1,6-6h18V16a6,6,0,0,1,12,0V34h18a6,6,0,0,1,0,12H182V64a6,6,0,0,1-12,0V46H152A6,6,0,0,1,146,40ZM246,88a6,6,0,0,1-6,6H230v10a6,6,0,0,1-12,0V94H208a6,6,0,0,1,0-12h10V72a6,6,0,0,1,12,0V82h10A6,6,0,0,1,246,88Z"/></symbol>
+</svg>
+
+<div class="orbs"><div class="orb a"></div><div class="orb b"></div><div class="orb c"></div></div>
+
+<nav class="nav">
+  <div class="nav-pill">
+    <a class="nav-brand" href="#"><span class="nav-dot"><svg class="ic"><use href="#i-chat"/></svg></span>Lead Qualifier</a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a class="nav-cta" href="http://localhost:8081/signup">Start free<span class="orb-btn"><svg class="ic"><use href="#i-arrow"/></svg></span></a>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <span class="eyebrow"><svg class="ic"><use href="#i-sparkle"/></svg>For small B2B service businesses</span>
+  <h1>Your website gets visitors.<br>You should get qualified leads.</h1>
+  <p>Lead Qualifier is an always-on AI assistant that chats with your visitors, asks the qualifying questions you'd ask — budget, timeline, decision authority — and sends only the real opportunities to your inbox, Slack or CRM. With the full transcript.</p>
+  <div class="hero-ctas">
+    <a class="cta" href="http://localhost:8081/signup">Get your assistant<span class="orb-btn"><svg class="ic"><use href="#i-arrow"/></svg></span></a>
+    <a class="cta ghost" href="#how">See how it works</a>
+  </div>
+  <div class="hero-note">Live in ~14 minutes · one script tag · no developer needed</div>
+
+  <div class="chatdemo shellcard">
+    <div class="innercard">
+      <div class="chat-head">
+        <div class="chat-avatar"><svg class="ic"><use href="#i-chat"/></svg></div>
+        <div><b>Northshore IT — Assistant</b><span>● Online now</span></div>
+      </div>
+      <div class="chat-body">
+        <div class="msg bot">Hi! 👋 Looking for IT support, or just have a quick question?</div>
+        <div class="msg you">We're a 14-person accounting firm, our current IT guy is retiring.</div>
+        <div class="msg bot">Sounds like a great fit — do you have a monthly budget range in mind?</div>
+        <div class="msg you">Around $2,500/month. We'd want to switch within a month. I'm the managing partner.</div>
+        <div class="msg bot">Perfect. What's the best email to reach you? The team will set up a quick call.</div>
+      </div>
+      <div class="chat-verdict"><svg class="ic"><use href="#i-check"/></svg><span><b>Qualified — score 88/100</b> · budget ✓ authority ✓ timeline ✓ → sent to your inbox with the full transcript</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="how" class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow"><svg class="ic"><use href="#i-lightning"/></svg>Setup</span>
+    <h2>Live before your coffee gets cold.</h2>
+    <p>No workflows to build, no flowcharts, no developer. Describe your ideal customer in plain English and paste one line on your site.</p>
+  </div>
+  <div class="shellcard reveal"><div class="innercard">
+    <div class="steps">
+      <div class="step"><span class="step-n">1</span><div><b>Create your account</b><p>Email and password. That's the whole form — we practice what we preach.</p></div><span class="t">1 min</span></div>
+      <div class="step"><span class="step-n">2</span><div><b>Describe your ideal customer</b><p>"5+ employees, decision maker, $2,000+ budget, needs help within 30 days." Plain English. The AI does the rest.</p></div><span class="t">5 min</span></div>
+      <div class="step"><span class="step-n">3</span><div><b>Choose where leads go</b><p>Your inbox, a Slack channel, or any CRM via webhook — HubSpot, Pipedrive, Zapier, anything.</p></div><span class="t">2 min</span></div>
+      <div class="step"><span class="step-n">4</span><div><b>Brand it &amp; paste the snippet</b><p>Your colors, your logo, your greeting. Then one script tag — works on WordPress, Webflow, Squarespace, anything.</p></div><span class="t">5 min</span></div>
+      <div class="step"><span class="step-n">5</span><div><b>Watch qualified leads arrive</b><p>Every conversation lands in your dashboard. Only the good ones interrupt your day.</p></div><span class="t">∞</span></div>
+    </div>
+  </div></div>
+</section>
+
+<section id="features" class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow"><svg class="ic"><use href="#i-target"/></svg>What it does</span>
+    <h2>A junior sales rep that never sleeps, never forgets a question.</h2>
+  </div>
+  <div class="bento">
+    <div class="b-8 shellcard reveal"><div class="innercard">
+      <div class="feat-ic"><svg class="ic"><use href="#i-target"/></svg></div>
+      <h3>Qualification built in — not bolted on</h3>
+      <p>Every conversation is scored 0–100 against your ideal customer profile across budget, authority, need and timeline. You set the bar; the assistant collects names, emails and phone numbers naturally along the way. Unqualified visitors are let down politely — or pointed to your newsletter.</p>
+    </div></div>
+    <div class="b-4 shellcard reveal"><div class="innercard">
+      <div class="feat-ic"><svg class="ic"><use href="#i-lightning"/></svg></div>
+      <h3>Proactive triggers</h3>
+      <p>Open after a delay, on exit intent, or only on specific pages like /pricing. Capture the visitors who'd never click first.</p>
+    </div></div>
+    <div class="b-4 shellcard reveal"><div class="innercard">
+      <div class="feat-ic"><svg class="ic"><use href="#i-brain"/></svg></div>
+      <h3>It learns from you</h3>
+      <p>Overrode a verdict? Your correction is fed back into future conversations. The assistant gets sharper every week.</p>
+    </div></div>
+    <div class="b-4 shellcard reveal"><div class="innercard">
+      <div class="feat-ic"><svg class="ic"><use href="#i-wave"/></svg></div>
+      <h3>Human handoff</h3>
+      <p>Visitor wants a person? You're pinged instantly and can jump into the live chat from your dashboard.</p>
+    </div></div>
+    <div class="b-4 shellcard reveal"><div class="innercard">
+      <div class="feat-ic"><svg class="ic"><use href="#i-plugs"/></svg></div>
+      <h3>No CRM lock-in</h3>
+      <p>Email, Slack, or signed webhooks to any system. Your leads, your data, your stack.</p>
+    </div></div>
+    <div class="b-8 shellcard reveal"><div class="innercard">
+      <div class="feat-ic"><svg class="ic"><use href="#i-chart"/></svg></div>
+      <h3>See the time you're saving</h3>
+      <p>Leads qualified vs. screened out, average time to verdict, AI confidence, and estimated hours of manual screening you didn't do. Plus a weekly report in your inbox — proof the thing pays for itself.</p>
+    </div></div>
+    <div class="b-6 shellcard reveal"><div class="innercard">
+      <div class="feat-ic"><svg class="ic"><use href="#i-globe"/></svg></div>
+      <h3>Bilingual by default</h3>
+      <p>English, French, Spanish — or auto-detect and match the visitor. Built for Canadian and US businesses.</p>
+    </div></div>
+    <div class="b-6 shellcard reveal"><div class="innercard">
+      <div class="feat-ic"><svg class="ic"><use href="#i-tag"/></svg></div>
+      <h3>White-label for agencies</h3>
+      <p>Resell it to your clients under your own brand. Manage every client account from one place via the API.</p>
+    </div></div>
+  </div>
+</section>
+
+<section id="pricing" class="wrap">
+  <div class="sec-head center">
+    <span class="eyebrow"><svg class="ic"><use href="#i-sparkle"/></svg>Pricing</span>
+    <h2>Flat monthly fee. No per-seat games.</h2>
+    <p>Every plan includes the AI engine, the dashboard, unlimited team logins and every trigger type.</p>
+  </div>
+  <div class="pricing">
+    <div class="price-card shellcard reveal"><div class="innercard">
+      <div class="plan-name">Starter</div>
+      <div class="price-tag">$99<span>/mo</span></div>
+      <ul>
+        <li><svg class="ic"><use href="#i-check"/></svg>200 conversations / month</li>
+        <li><svg class="ic"><use href="#i-check"/></svg>Email &amp; Slack routing</li>
+        <li><svg class="ic"><use href="#i-check"/></svg>Proactive + exit-intent triggers</li>
+        <li><svg class="ic"><use href="#i-check"/></svg>Full widget customization</li>
+      </ul>
+      <a class="cta ghost" href="http://localhost:8081/signup">Start with Starter</a>
+    </div></div>
+    <div class="price-card hot shellcard reveal">
+      <span class="plan-hot">Most popular</span>
+      <div class="innercard">
+      <div class="plan-name">Professional</div>
+      <div class="price-tag">$199<span>/mo</span></div>
+      <ul>
+        <li><svg class="ic"><use href="#i-check"/></svg>500 conversations / month</li>
+        <li><svg class="ic"><use href="#i-check"/></svg>Webhook / CRM integration</li>
+        <li><svg class="ic"><use href="#i-check"/></svg>REST API access</li>
+        <li><svg class="ic"><use href="#i-check"/></svg>Remove our branding</li>
+      </ul>
+      <a class="cta" href="http://localhost:8081/signup">Go Professional</a>
+    </div></div>
+    <div class="price-card shellcard reveal"><div class="innercard">
+      <div class="plan-name">Agency</div>
+      <div class="price-tag">$399<span>/mo</span></div>
+      <ul>
+        <li><svg class="ic"><use href="#i-check"/></svg>10 client accounts</li>
+        <li><svg class="ic"><use href="#i-check"/></svg>Unlimited conversations each</li>
+        <li><svg class="ic"><use href="#i-check"/></svg>Set your own client pricing</li>
+        <li><svg class="ic"><use href="#i-check"/></svg>Manage all clients via API</li>
+      </ul>
+      <a class="cta ghost" href="http://localhost:8081/signup">Partner with us</a>
+    </div></div>
+    <div class="price-card shellcard reveal"><div class="innercard">
+      <div class="plan-name">Enterprise</div>
+      <div class="price-tag">Custom</div>
+      <ul>
+        <li><svg class="ic"><use href="#i-check"/></svg>Unlimited conversations</li>
+        <li><svg class="ic"><use href="#i-check"/></svg>Self-hosted / on-prem option</li>
+        <li><svg class="ic"><use href="#i-check"/></svg>Custom domain white-label</li>
+        <li><svg class="ic"><use href="#i-check"/></svg>Dedicated support</li>
+      </ul>
+      <a class="cta ghost" href="mailto:sales@example.com">Talk to us</a>
+    </div></div>
+  </div>
+</section>
+
+<section id="faq" class="wrap">
+  <div class="sec-head">
+    <span class="eyebrow"><svg class="ic"><use href="#i-chat"/></svg>FAQ</span>
+    <h2>Fair questions.</h2>
+  </div>
+  <div class="faq shellcard reveal"><div class="innercard">
+    <details open>
+      <summary>How is this different from Intercom or Drift?</summary>
+      <p>Those are enterprise support-and-sales suites — powerful, complex, and priced like it (Drift starts around $2,500/mo). Lead Qualifier does one job: qualify your website visitors against your ideal customer profile and hand you only the good ones. Plain-English setup, flat pricing, live in 14 minutes.</p>
+    </details>
+    <details>
+      <summary>What if the AI gets a verdict wrong?</summary>
+      <p>Every conversation is visible in your dashboard, and you can override any verdict with one click. Your override — and the note you attach — is fed back into future conversations, so the assistant learns your judgment over time.</p>
+    </details>
+    <details>
+      <summary>Will it make things up about my business?</summary>
+      <p>The assistant is instructed to never invent facts, prices or promises. When it doesn't know something, it says the team will follow up — and flags the conversation for you.</p>
+    </details>
+    <details>
+      <summary>Does it work on WordPress / Webflow / Squarespace?</summary>
+      <p>Yes — it's a single script tag, so it works anywhere you can paste HTML. On WordPress, any "insert headers &amp; footers" plugin does it in one minute.</p>
+    </details>
+    <details>
+      <summary>What happens to visitors who aren't a fit?</summary>
+      <p>Your choice: the assistant wraps up politely, or invites them to your newsletter so the visit still builds your audience. Either way you see the transcript and can overrule.</p>
+    </details>
+    <details>
+      <summary>Can my agency resell this?</summary>
+      <p>Yes. The Agency plan gives you 10 client accounts you can manage via API and price however you like; the white-label tier removes our branding entirely.</p>
+    </details>
+  </div></div>
+</section>
+
+<section class="final wrap">
+  <span class="eyebrow"><svg class="ic"><use href="#i-sparkle"/></svg>Ready?</span>
+  <h2>Stop replying to leads that were never going to buy.</h2>
+  <div class="hero-ctas" style="margin-top:36px">
+    <a class="cta" href="http://localhost:8081/signup">Get your assistant<span class="orb-btn"><svg class="ic"><use href="#i-arrow"/></svg></span></a>
+  </div>
+  <div class="hero-note">14-minute setup · cancel anytime</div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>© 2026 Lead Qualifier. Built for small B2B teams in Canada &amp; the US.</span>
+    <span><a href="#pricing">Pricing</a> · <a href="#faq">FAQ</a> · <a href="http://localhost:8081/login">Sign in</a></span>
+  </div>
+</footer>
+
+<script>
+var io = new IntersectionObserver(function (entries) {
+  entries.forEach(function (e) {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+</script>
+</body>
+</html>

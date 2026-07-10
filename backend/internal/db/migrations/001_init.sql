@@ -1,0 +1,120 @@
+CREATE TABLE IF NOT EXISTS accounts (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(190) NOT NULL,
+  company VARCHAR(190) NOT NULL DEFAULT '',
+  email VARCHAR(190) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  plan VARCHAR(32) NOT NULL DEFAULT 'starter',
+  parent_account_id BIGINT UNSIGNED NULL,
+  white_label TINYINT(1) NOT NULL DEFAULT 0,
+  settings LONGTEXT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_accounts_parent (parent_account_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+;--;
+CREATE TABLE IF NOT EXISTS api_keys (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  account_id BIGINT UNSIGNED NOT NULL,
+  public_key VARCHAR(64) NOT NULL UNIQUE,
+  secret_key VARCHAR(64) NOT NULL UNIQUE,
+  active TINYINT(1) NOT NULL DEFAULT 1,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_api_keys_account (account_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+;--;
+CREATE TABLE IF NOT EXISTS icp_profiles (
+  account_id BIGINT UNSIGNED PRIMARY KEY,
+  description TEXT NOT NULL,
+  threshold INT NOT NULL DEFAULT 70,
+  weights TEXT NULL,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+;--;
+CREATE TABLE IF NOT EXISTS widget_configs (
+  account_id BIGINT UNSIGNED PRIMARY KEY,
+  config LONGTEXT NOT NULL,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+;--;
+CREATE TABLE IF NOT EXISTS routing_configs (
+  account_id BIGINT UNSIGNED PRIMARY KEY,
+  config TEXT NOT NULL,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+;--;
+CREATE TABLE IF NOT EXISTS conversations (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  account_id BIGINT UNSIGNED NOT NULL,
+  visitor_id VARCHAR(64) NOT NULL DEFAULT '',
+  token VARCHAR(64) NOT NULL UNIQUE,
+  page_url VARCHAR(512) NOT NULL DEFAULT '',
+  status VARCHAR(20) NOT NULL DEFAULT 'active',
+  score INT NULL,
+  bant TEXT NULL,
+  contact TEXT NULL,
+  summary TEXT NULL,
+  confidence INT NULL,
+  language VARCHAR(12) NOT NULL DEFAULT '',
+  override_status VARCHAR(10) NULL,
+  override_note TEXT NULL,
+  message_count INT NOT NULL DEFAULT 0,
+  started_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  ended_at DATETIME NULL,
+  last_activity_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_conv_account_started (account_id, started_at),
+  INDEX idx_conv_account_status (account_id, status),
+  INDEX idx_conv_status_activity (status, last_activity_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+;--;
+CREATE TABLE IF NOT EXISTS messages (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  conversation_id BIGINT UNSIGNED NOT NULL,
+  role VARCHAR(12) NOT NULL,
+  content TEXT NOT NULL,
+  quick_replies TEXT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_messages_conv (conversation_id, id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+;--;
+CREATE TABLE IF NOT EXISTS deliveries (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  account_id BIGINT UNSIGNED NOT NULL,
+  conversation_id BIGINT UNSIGNED NULL,
+  channel VARCHAR(20) NOT NULL,
+  kind VARCHAR(20) NOT NULL DEFAULT 'lead',
+  status VARCHAR(20) NOT NULL DEFAULT 'pending',
+  attempts INT NOT NULL DEFAULT 0,
+  last_error TEXT NULL,
+  payload LONGTEXT NOT NULL,
+  next_attempt_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  sent_at DATETIME NULL,
+  INDEX idx_deliveries_pending (status, next_attempt_at),
+  INDEX idx_deliveries_account (account_id, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+;--;
+CREATE TABLE IF NOT EXISTS feedback (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  account_id BIGINT UNSIGNED NOT NULL,
+  conversation_id BIGINT UNSIGNED NOT NULL,
+  original_status VARCHAR(20) NOT NULL,
+  corrected_status VARCHAR(10) NOT NULL,
+  note TEXT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_feedback_account (account_id, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+;--;
+CREATE TABLE IF NOT EXISTS events (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  account_id BIGINT UNSIGNED NOT NULL,
+  visitor_id VARCHAR(64) NOT NULL DEFAULT '',
+  type VARCHAR(32) NOT NULL,
+  page_url VARCHAR(512) NOT NULL DEFAULT '',
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_events_account (account_id, created_at, type)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+;--;
+CREATE TABLE IF NOT EXISTS weekly_reports (
+  account_id BIGINT UNSIGNED PRIMARY KEY,
+  last_sent_at DATETIME NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4

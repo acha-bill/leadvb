@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Widget local demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; background: #f4f4f7; color: #333; }
+    .hero { max-width: 720px; margin: 60px auto; padding: 0 24px; }
+    h1 { font-size: 28px; }
+    p { line-height: 1.6; color: #555; }
+    code { background: #e8e8ef; padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h1>Local widget demo</h1>
+    <p>Customers normally install the widget with a bare snippet — no key in the page — after registering their website domain in the dashboard (Install &amp; API):</p>
+    <p><code>&lt;script src="https://api.yourdomain.com/widget/chat.js" async&gt;&lt;/script&gt;</code></p>
+    <p><b>Don't open this file directly from disk</b> — <code>file://</code> pages are isolated origins (browsers may even log "Unsafe attempt to load URL file:..." when previewed in an IDE frame), and they send no usable <code>Origin</code>, so domain matching can't work. Instead either:</p>
+    <p>1. Open the served preview: <code>http://localhost:8080/widget/demo</code> (keyless once <code>localhost</code> is registered as a domain in the dashboard), or</p>
+    <p>2. Serve this file over HTTP — <code>python3 -m http.server 9000</code> in this folder, register <code>localhost</code> in the dashboard, open <code>http://localhost:9000/demo.html</code>, or</p>
+    <p>3. As a last resort for direct file opening, paste your widget key into the <code>data-widget-key</code> attribute below.</p>
+  </div>
+  <script src="http://localhost:8080/widget/chat.js" data-widget-key="" async></script>
+</body>
+</html>
