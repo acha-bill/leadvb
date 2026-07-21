@@ -1,11 +1,11 @@
 import { useMemo, useRef, useState } from 'react'
 import type { DailyPoint } from '../types'
 
-const S1 = '#2a78d6'
-const S2 = '#1baf7a'
-const GRID = '#e1e0d9'
-const MUTED = '#898781'
-const ORDINAL = ['#86b6ef', '#5598e7', '#2a78d6', '#1c5cab', '#104281']
+const S1 = '#2455d6'
+const S2 = '#16734a'
+const GRID = '#deded7'
+const MUTED = '#6f7c7f'
+const ORDINAL = ['#cad7f8', '#92acef', '#5f82e3', '#2455d6', '#173ba0']
 
 function niceMax(v: number): number {
   if (v <= 5) return 5
@@ -88,8 +88,8 @@ export function TrendChart({ data }: { data: DailyPoint[] }) {
         <path d={path((d) => d.qualified)} fill="none" stroke={S2} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
         {hover !== null && h && (
           <g>
-            <circle cx={x(hover)} cy={y(h.conversations)} r={4.5} fill={S1} stroke="#fcfcfb" strokeWidth={2} />
-            <circle cx={x(hover)} cy={y(h.qualified)} r={4.5} fill={S2} stroke="#fcfcfb" strokeWidth={2} />
+            <circle cx={x(hover)} cy={y(h.conversations)} r={4.5} fill={S1} stroke="#ffffff" strokeWidth={2} />
+            <circle cx={x(hover)} cy={y(h.qualified)} r={4.5} fill={S2} stroke="#ffffff" strokeWidth={2} />
           </g>
         )}
         {last && hover === null && (
@@ -115,7 +115,7 @@ export function TrendChart({ data }: { data: DailyPoint[] }) {
 
 export function ConfidenceHistogram({ buckets }: { buckets: number[] }) {
   const [hover, setHover] = useState<number | null>(null)
-  const labels = ['0–20', '21–40', '41–60', '61–80', '81–100']
+  const labels = ['0-20', '21-40', '41-60', '61-80', '81-100']
   const W = 300
   const H = 170
   const pad = { l: 8, r: 8, t: 10, b: 24 }
@@ -140,7 +140,7 @@ export function ConfidenceHistogram({ buckets }: { buckets: number[] }) {
                 {labels[i]}
               </text>
               {v > 0 && (
-                <text x={pad.l + i * bw + bw / 2} y={pad.t + ih - bh - 5} textAnchor="middle" fontSize={10.5} fontWeight={700} fill="#52514e" style={{ fontVariantNumeric: 'tabular-nums' }}>
+                <text x={pad.l + i * bw + bw / 2} y={pad.t + ih - bh - 5} textAnchor="middle" fontSize={10.5} fontWeight={700} fill="#526064" style={{ fontVariantNumeric: 'tabular-nums' }}>
                   {v}
                 </text>
               )}

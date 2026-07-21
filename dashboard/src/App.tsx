@@ -52,7 +52,9 @@ export default function App() {
     window.setTimeout(() => setToastMsg(null), 3200)
   }, [])
 
-  if (loading) return null
+  if (loading) {
+    return <div className="app-loader" role="status"><span className="loader-mark" />Loading your dashboard</div>
+  }
 
   const authed = account !== null
   const publicPage = location.pathname === '/login' || location.pathname === '/signup'
@@ -79,7 +81,7 @@ export default function App() {
           )}
           <Route path="*" element={<Navigate to={authed ? '/' : '/login'} replace />} />
         </Routes>
-        {toastMsg && <div className={'toast' + (toastMsg.err ? ' err' : '')}>{toastMsg.msg}</div>}
+        {toastMsg && <div className={'toast' + (toastMsg.err ? ' err' : '')} role={toastMsg.err ? 'alert' : 'status'} aria-live="polite">{toastMsg.msg}</div>}
       </TCtx.Provider>
     </Ctx.Provider>
   )

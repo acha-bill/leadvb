@@ -63,17 +63,17 @@ export default function SettingsWidget() {
     <>
       <div className="page-head">
         <div>
-          <span className="eyebrow">Appearance &amp; triggers</span>
+          <span className="eyebrow">Appearance and timing</span>
           <h1>Widget design</h1>
-          <p className="sub">Brand the chat bubble and choose when it speaks up.</p>
+          <p className="sub">Match the widget to your site and decide when it should invite someone to chat.</p>
         </div>
         <button className="btn" onClick={save} disabled={busy}>
-          Save widget <span className="btn-orb">✓</span>
+          {busy ? 'Saving...' : 'Save widget'}
         </button>
       </div>
 
       <div className="grid cols-3">
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className="span-2">
+        <div className="stack span-2">
           <div className="shell fade-up">
             <div className="card">
               <h3>Branding</h3>
@@ -84,8 +84,8 @@ export default function SettingsWidget() {
                 </label>
                 <label className="field">
                   <span>Brand color</span>
-                  <div style={{ display: 'flex', gap: 10 }}>
-                    <input type="color" value={cfg.primary_color} onChange={(e) => setCfg({ ...cfg, primary_color: e.target.value })} style={{ width: 48, height: 42, padding: 4, border: '1px solid var(--hairline)', borderRadius: 12, background: 'var(--surface)' }} />
+                  <div className="color-control">
+                    <input className="color-swatch" aria-label="Choose brand color" type="color" value={cfg.primary_color} onChange={(e) => setCfg({ ...cfg, primary_color: e.target.value })} />
                     <input type="text" value={cfg.primary_color} onChange={(e) => setCfg({ ...cfg, primary_color: e.target.value })} />
                   </div>
                 </label>
@@ -98,13 +98,13 @@ export default function SettingsWidget() {
                 </label>
                 <label className="field">
                   <span>Logo (max 200KB)</span>
-                  <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                    {cfg.logo_url && <img src={cfg.logo_url} alt="logo" style={{ width: 38, height: 38, borderRadius: 10, objectFit: 'cover' }} />}
+                  <div className="logo-row">
+                    {cfg.logo_url && <img src={cfg.logo_url} alt={`${cfg.company_name || 'Company'} logo`} className="logo-preview" />}
                     <button type="button" className="btn subtle" onClick={() => fileRef.current?.click()}>Upload</button>
                     {cfg.logo_url && (
                       <button type="button" className="btn subtle" onClick={() => setCfg({ ...cfg, logo_url: '' })}>Remove</button>
                     )}
-                    <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={onLogo} />
+                    <input ref={fileRef} type="file" accept="image/*" className="hidden-input" onChange={onLogo} />
                   </div>
                 </label>
               </div>
@@ -115,7 +115,7 @@ export default function SettingsWidget() {
               <label className="field">
                 <span>Conversation language</span>
                 <select value={cfg.language} onChange={(e) => setCfg({ ...cfg, language: e.target.value })}>
-                  <option value="auto">Auto — match the visitor</option>
+                  <option value="auto">Match the visitor automatically</option>
                   <option value="en">English</option>
                   <option value="fr">Français</option>
                   <option value="es">Español</option>
@@ -134,7 +134,7 @@ export default function SettingsWidget() {
           <div className="shell fade-up d1">
             <div className="card">
               <h3>Proactive triggers</h3>
-              <p className="card-sub">Don't wait for clicks — start the conversation.</p>
+              <p className="card-sub">Invite people to chat when the timing makes sense.</p>
               {feats.proactive_triggers && (
                 <>
                   <Toggle checked={cfg.proactive.enabled} onChange={(v) => setCfg({ ...cfg, proactive: { ...cfg.proactive, enabled: v } })} label="Open automatically after a delay" />
@@ -178,15 +178,15 @@ export default function SettingsWidget() {
           </div>
         </div>
 
-        <div className="shell fade-up d2">
-          <div className="card" style={{ padding: 10 }}>
-            <h3 style={{ padding: '10px 10px 0' }}>Live preview</h3>
-            <p className="card-sub" style={{ padding: '0 10px' }}>Saved settings, real conversations.</p>
+        <div className="shell preview-card fade-up d2">
+          <div className="card">
+            <h3 className="preview-heading">Live preview</h3>
+            <p className="card-sub preview-copy">The preview uses your saved settings and starts real conversations.</p>
             <iframe
               key={previewNonce}
               title="Widget preview"
               src={`${baseURL}/widget/demo?key=${pk}`}
-              style={{ width: '100%', height: 480, border: 'none', borderRadius: 12, background: '#f4f4f7' }}
+              className="widget-preview"
             />
           </div>
         </div>

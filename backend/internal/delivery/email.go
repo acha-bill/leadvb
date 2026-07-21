@@ -115,14 +115,16 @@ func LeadEmailHTML(p LeadPayload) (subject, body string) {
 		transcript.WriteString("<p style='margin:4px 0'><b>" + who + ":</b> " + html.EscapeString(t.Content) + "</p>")
 	}
 
-	body = fmt.Sprintf(`<div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto">
-<h2 style="color:#111">%s</h2>
-<p>%s</p>
-<table style="border-collapse:collapse;background:#f8f8fa;border-radius:8px">%s</table>
-<h3>Transcript</h3>
-<div style="background:#f8f8fa;padding:12px;border-radius:8px">%s</div>
-<p><a href="%s" style="color:#4F46E5">Open in dashboard →</a></p>
-</div>`, label, html.EscapeString(p.Summary), rows.String(), transcript.String(), p.DashboardURL)
+	body = fmt.Sprintf(`<div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;background:#f6f5f0;padding:32px;color:#18272a">
+<div style="background:#ffffff;border:1px solid #d9d9d2;border-radius:20px;padding:32px">
+<p style="margin:0;color:#2455d6;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px">Lead Qualifier</p>
+<h2 style="margin:12px 0 8px">%s</h2>
+<p style="color:#526064">%s</p>
+<table style="border-collapse:collapse;background:#f6f5f0;border-radius:10px">%s</table>
+<h3 style="margin-top:28px">Transcript</h3>
+<div style="background:#f6f5f0;padding:16px;border-radius:10px;color:#526064">%s</div>
+<p style="margin:28px 0 0"><a href="%s" style="display:inline-block;background:#2455d6;color:#ffffff;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:999px">Open in dashboard</a></p>
+</div></div>`, label, html.EscapeString(p.Summary), rows.String(), transcript.String(), p.DashboardURL)
 	return subject, body
 }
 

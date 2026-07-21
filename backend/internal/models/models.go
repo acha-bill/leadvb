@@ -86,7 +86,7 @@ type WidgetConfig struct {
 func DefaultWidgetConfig(company string) WidgetConfig {
 	return WidgetConfig{
 		CompanyName:  company,
-		PrimaryColor: "#4F46E5",
+		PrimaryColor: "#2455D6",
 		Position:     "right",
 		Greeting:     "Hi there! 👋 How can we help you today?",
 		Branding:     true,

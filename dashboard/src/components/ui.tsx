@@ -1,22 +1,16 @@
 import type { ReactNode } from 'react'
 
 export function Shell({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return (
-    <div className={`shell ${className}`}>
-      <div className="card">{children}</div>
-    </div>
-  )
+  return <section className={`card ${className}`}>{children}</section>
 }
 
 export function StatCard({ label, value, hint, delay = 0 }: { label: string; value: ReactNode; hint?: ReactNode; delay?: number }) {
   return (
-    <div className={`shell fade-up d${delay}`}>
-      <div className="card">
-        <div className="stat-label">{label}</div>
-        <div className="stat-value tnum">{value}</div>
-        {hint && <div className="stat-hint">{hint}</div>}
-      </div>
-    </div>
+    <section className={`card stat-card fade-up d${delay}`}>
+      <div className="stat-label">{label}</div>
+      <div className="stat-value tnum">{value}</div>
+      {hint && <div className="stat-hint">{hint}</div>}
+    </section>
   )
 }
 
@@ -35,7 +29,7 @@ export function StatusBadge({ status }: { status: string }) {
 }
 
 export function ScorePill({ score }: { score: number | null }) {
-  if (score === null) return <span style={{ color: 'var(--muted)' }}>—</span>
+  if (score === null) return <span className="not-set">Not scored</span>
   const cls = score >= 70 ? 'score-high' : score >= 45 ? 'score-mid' : 'score-low'
   return <span className={`score-pill tnum ${cls}`}>{score}</span>
 }
@@ -63,7 +57,7 @@ export function timeAgo(iso: string): string {
 }
 
 export function fmtDuration(seconds: number): string {
-  if (!seconds || seconds <= 0) return '—'
+  if (!seconds || seconds <= 0) return 'Not available'
   if (seconds < 60) return `${Math.round(seconds)}s`
   const m = Math.floor(seconds / 60)
   const s = Math.round(seconds % 60)

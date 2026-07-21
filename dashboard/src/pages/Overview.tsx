@@ -25,7 +25,7 @@ export default function Overview() {
         <div>
           <span className="eyebrow">Overview</span>
           <h1>Good to see you, {account?.name?.split(' ')[0]}</h1>
-          <p className="sub">What your assistant has been up to.</p>
+          <p className="sub">A clear view of who visited, who qualified, and how much screening work the assistant handled.</p>
         </div>
         <div className="seg">
           {[7, 30, 90].map((d) => (
@@ -47,14 +47,14 @@ export default function Overview() {
         <div className="shell span-2 fade-up d1">
           <div className="card">
             <h3>Lead flow</h3>
-            <p className="card-sub">Daily conversations and how many qualified.</p>
+            <p className="card-sub">Daily conversations compared with qualified leads.</p>
             <TrendChart data={metrics.daily} />
           </div>
         </div>
         <div className="shell fade-up d2">
           <div className="card">
             <h3>AI confidence</h3>
-            <p className="card-sub">How certain the verdicts were.</p>
+            <p className="card-sub">How confident the assistant was in each verdict.</p>
             <ConfidenceHistogram buckets={metrics.confidence_buckets} />
           </div>
         </div>

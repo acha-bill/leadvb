@@ -99,46 +99,57 @@
     var side = cfg.position === 'left' ? 'left' : 'right';
     return '\
 :host{all:initial}\
-*{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}\
-.lq-btn{position:fixed;bottom:20px;' + side + ':20px;width:60px;height:60px;border-radius:50%;background:' + primary + ';color:' + onPrimary + ';border:none;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.24);display:flex;align-items:center;justify-content:center;z-index:2147483000;transition:transform .15s ease}\
-.lq-btn:hover{transform:scale(1.06)}\
-.lq-btn svg{width:28px;height:28px;fill:' + onPrimary + '}\
-.lq-badge{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;border-radius:10px;background:#EF4444;color:#fff;font-size:12px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 5px}\
-.lq-panel{position:fixed;bottom:92px;' + side + ':20px;width:372px;max-width:calc(100vw - 32px);height:560px;max-height:calc(100vh - 120px);background:#fff;border-radius:16px;box-shadow:0 12px 48px rgba(0,0,0,.28);display:none;flex-direction:column;overflow:hidden;z-index:2147483001}\
-.lq-panel.open{display:flex}\
-.lq-head{background:' + primary + ';color:' + onPrimary + ';padding:14px 16px;display:flex;align-items:center;gap:10px;flex:0 0 auto}\
-.lq-logo{width:32px;height:32px;border-radius:8px;object-fit:cover;background:rgba(255,255,255,.25)}\
-.lq-head-title{font-size:15px;font-weight:700;line-height:1.2}\
-.lq-head-sub{font-size:12px;opacity:.85}\
-.lq-close{margin-left:auto;background:none;border:none;color:' + onPrimary + ';cursor:pointer;font-size:20px;line-height:1;padding:4px;opacity:.85}\
-.lq-close:hover{opacity:1}\
-.lq-msgs{flex:1 1 auto;overflow-y:auto;padding:16px;background:#F8F8FB;display:flex;flex-direction:column;gap:10px}\
+*{box-sizing:border-box;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}\
+button,textarea{font:inherit}\
+.lq-btn{position:fixed;bottom:22px;' + side + ':22px;width:58px;height:58px;border-radius:18px;background:' + primary + ';color:' + onPrimary + ';border:1px solid rgba(255,255,255,.22);cursor:pointer;box-shadow:0 16px 36px rgba(24,39,42,.24);display:flex;align-items:center;justify-content:center;z-index:2147483000;transition:transform .18s cubic-bezier(.22,1,.36,1),box-shadow .18s ease}\
+.lq-btn:hover{transform:translateY(-2px);box-shadow:0 20px 42px rgba(24,39,42,.28)}\
+.lq-btn:active{transform:translateY(0)}\
+.lq-btn:focus-visible,.lq-close:focus-visible,.lq-send:focus-visible,.lq-chip:focus-visible,.lq-ended button:focus-visible,.lq-input:focus-visible{outline:3px solid rgba(36,85,214,.35);outline-offset:3px}\
+.lq-btn svg{width:27px;height:27px;fill:' + onPrimary + '}\
+.lq-badge{position:absolute;top:-5px;right:-5px;min-width:21px;height:21px;border-radius:11px;background:#b72f39;color:#fff;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 6px;box-shadow:0 2px 8px rgba(24,39,42,.18)}\
+.lq-panel{position:fixed;bottom:94px;' + side + ':22px;width:390px;max-width:calc(100vw - 32px);height:600px;max-height:calc(100dvh - 126px);background:#fff;border:1px solid #d9d9d2;border-radius:24px;box-shadow:0 28px 80px rgba(24,39,42,.2);display:none;flex-direction:column;overflow:hidden;z-index:2147483001;transform-origin:bottom ' + side + '}\
+.lq-panel.open{display:flex;animation:lqopen .22s cubic-bezier(.22,1,.36,1) both}\
+@keyframes lqopen{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}\
+.lq-head{background:#fff;color:#18272a;padding:14px 12px 14px 16px;display:flex;align-items:center;gap:11px;flex:0 0 auto;border-bottom:1px solid #e4e3dc}\
+.lq-logo,.lq-brandmark{width:36px;height:36px;border-radius:11px;object-fit:cover;background:' + primary + ';color:' + onPrimary + ';display:grid;place-items:center;flex:0 0 auto}\
+.lq-brandmark svg{width:19px;height:19px;fill:none;stroke:' + onPrimary + ';stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}\
+.lq-head-title{font-size:14px;font-weight:700;line-height:1.25;letter-spacing:-.01em}\
+.lq-head-sub{display:flex;align-items:center;gap:6px;color:#526064;font-size:11px;margin-top:2px}\
+.lq-head-sub:before{content:"";width:7px;height:7px;border-radius:50%;background:#16734a;box-shadow:0 0 0 3px #def4e8}\
+.lq-close{margin-left:auto;width:44px;height:44px;border:0;border-radius:12px;background:#ecebe5;color:#526064;cursor:pointer;display:grid;place-items:center;transition:background .18s ease,color .18s ease}\
+.lq-close:hover{background:#deddd6;color:#18272a}\
+.lq-close svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}\
+.lq-msgs{flex:1 1 auto;overflow-y:auto;padding:18px 16px;background:#f6f5f0;display:flex;flex-direction:column;gap:11px;scrollbar-color:#c9c9c2 transparent;scrollbar-width:thin}\
 .lq-row{display:flex}\
 .lq-row.me{justify-content:flex-end}\
-.lq-bubble{max-width:80%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.45;white-space:pre-wrap;word-wrap:break-word}\
-.lq-row.bot .lq-bubble{background:#fff;color:#1F2430;border:1px solid #E7E7EF;border-bottom-left-radius:6px}\
-.lq-row.owner .lq-bubble{background:#FFF7E6;color:#1F2430;border:1px solid #F2E2BC;border-bottom-left-radius:6px}\
-.lq-row.me .lq-bubble{background:' + primary + ';color:' + onPrimary + ';border-bottom-right-radius:6px}\
+.lq-bubble{max-width:82%;padding:11px 14px;border-radius:16px;font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}\
+.lq-row.bot .lq-bubble{background:#fff;color:#18272a;border-bottom-left-radius:5px;box-shadow:0 5px 18px rgba(24,39,42,.055)}\
+.lq-row.owner .lq-bubble{background:#fff0d8;color:#47321e;border-bottom-left-radius:5px}\
+.lq-row.me .lq-bubble{background:' + primary + ';color:' + onPrimary + ';border-bottom-right-radius:5px}\
 .lq-bubble a{color:inherit;text-decoration:underline}\
-.lq-owner-tag{font-size:11px;color:#8B6B1F;margin:0 0 2px 6px}\
-.lq-typing{display:flex;gap:4px;padding:12px 16px;background:#fff;border:1px solid #E7E7EF;border-radius:16px;border-bottom-left-radius:6px;width:64px}\
-.lq-typing i{width:7px;height:7px;border-radius:50%;background:#B9BDC9;animation:lqb 1.1s infinite}\
+.lq-owner-tag{font-size:10px;color:#98540c;margin:0 0 3px 6px;font-weight:650}\
+.lq-typing{display:flex;gap:4px;padding:13px 16px;background:#fff;border-radius:16px;border-bottom-left-radius:5px;width:64px;box-shadow:0 5px 18px rgba(24,39,42,.055)}\
+.lq-typing i{width:7px;height:7px;border-radius:50%;background:#8b9495;animation:lqb 1.1s infinite}\
 .lq-typing i:nth-child(2){animation-delay:.18s}.lq-typing i:nth-child(3){animation-delay:.36s}\
 @keyframes lqb{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}\
-.lq-quick{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 8px;background:#F8F8FB}\
-.lq-chip{border:1.5px solid ' + primary + ';color:' + primary + ';background:#fff;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:background .12s}\
+.lq-quick{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 12px;background:#f6f5f0}\
+.lq-chip{min-height:44px;border:1px solid ' + primary + ';color:' + primary + ';background:#fff;border-radius:999px;padding:8px 14px;font-size:13px;font-weight:650;cursor:pointer;transition:background .18s ease,color .18s ease}\
 .lq-chip:hover{background:' + primary + ';color:' + onPrimary + '}\
-.lq-foot{flex:0 0 auto;border-top:1px solid #ECECF2;background:#fff}\
-.lq-inputrow{display:flex;align-items:flex-end;gap:8px;padding:10px 12px}\
-.lq-input{flex:1;border:none;outline:none;resize:none;font-size:14px;line-height:1.4;max-height:96px;padding:8px 6px;color:#1F2430;background:transparent}\
-.lq-send{background:' + primary + ';color:' + onPrimary + ';border:none;border-radius:10px;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto}\
+.lq-foot{flex:0 0 auto;border-top:1px solid #e4e3dc;background:#fff;padding-bottom:max(0px,env(safe-area-inset-bottom))}\
+.lq-inputrow{display:flex;align-items:flex-end;gap:8px;margin:12px;border:1px solid #d9d9d2;border-radius:16px;padding:5px 5px 5px 10px;transition:border-color .18s ease,box-shadow .18s ease}\
+.lq-inputrow:focus-within{border-color:' + primary + ';box-shadow:0 0 0 4px rgba(36,85,214,.12)}\
+.lq-input{flex:1;min-height:40px;border:0;outline:0;resize:none;font-size:14px;line-height:1.45;max-height:96px;padding:9px 4px;color:#18272a;background:transparent}\
+.lq-input::placeholder{color:#7c8789}\
+.lq-send{background:' + primary + ';color:' + onPrimary + ';border:none;border-radius:12px;width:44px;height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto;transition:opacity .18s ease,transform .18s cubic-bezier(.22,1,.36,1)}\
+.lq-send:hover{transform:translateY(-1px)}\
 .lq-send:disabled{opacity:.45;cursor:default}\
 .lq-send svg{width:18px;height:18px;fill:' + onPrimary + '}\
-.lq-brand{text-align:center;font-size:11px;color:#9CA0AC;padding:0 0 8px}\
-.lq-brand a{color:#9CA0AC;text-decoration:none;font-weight:600}\
-.lq-ended{padding:10px 16px;text-align:center;font-size:13px;color:#6B7080;background:#fff}\
-.lq-ended button{margin-top:6px;border:1px solid #D9D9E3;background:#fff;border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer;color:#1F2430}\
-@media (max-width:480px){.lq-panel{bottom:0;' + side + ':0;width:100vw;max-width:100vw;height:100vh;max-height:100vh;border-radius:0}}\
+.lq-brand{text-align:center;font-size:10px;color:#7c8789;padding:0 0 9px}\
+.lq-brand a{color:#526064;text-decoration:none;font-weight:650}\
+.lq-ended{padding:11px 16px;text-align:center;font-size:13px;color:#526064;background:#fff}\
+.lq-ended button{min-height:44px;margin-top:7px;border:0;background:#ecebe5;border-radius:999px;padding:0 15px;font-size:13px;font-weight:650;cursor:pointer;color:#18272a}\
+@media (max-width:480px){.lq-btn{bottom:max(16px,env(safe-area-inset-bottom));' + side + ':16px}.lq-panel{bottom:0;' + side + ':0;width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;border-radius:0;border:0}.lq-head{padding-top:max(14px,env(safe-area-inset-top))}.lq-bubble{max-width:88%}}\
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}\
 ';
   }
 
@@ -149,28 +160,36 @@
     root = host.attachShadow ? host.attachShadow({ mode: 'open' }) : host;
 
     var style = document.createElement('style');
-    style.textContent = css(cfg.primary_color || '#4F46E5');
+    style.textContent = css(cfg.primary_color || '#2455D6');
     root.appendChild(style);
 
     btn = document.createElement('button');
     btn.className = 'lq-btn';
     btn.setAttribute('aria-label', 'Open chat');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-controls', 'lq-chat-panel');
     btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 3C6.9 3 3 6.5 3 10.8c0 2.4 1.2 4.5 3.2 5.9-.1.8-.5 2.1-1.5 3.1 0 0 2.4-.3 4.2-1.5.9.2 2 .4 3.1.4 5.1 0 9-3.5 9-7.9S17.1 3 12 3z"/></svg><span class="lq-badge"></span>';
     root.appendChild(btn);
     badgeEl = btn.querySelector('.lq-badge');
 
     panel = document.createElement('div');
     panel.className = 'lq-panel';
+    panel.id = 'lq-chat-panel';
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-label', 'Chat with ' + (cfg.company_name || 'our team'));
+    panel.setAttribute('aria-hidden', 'true');
     var name = esc(cfg.company_name || 'Chat with us');
-    var logo = cfg.logo_url ? '<img class="lq-logo" src="' + esc(cfg.logo_url) + '" alt="">' : '';
+    var logo = cfg.logo_url
+      ? '<img class="lq-logo" src="' + esc(cfg.logo_url) + '" alt="">'
+      : '<span class="lq-brandmark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg></span>';
     panel.innerHTML =
       '<div class="lq-head">' + logo +
-      '<div><div class="lq-head-title">' + name + '</div><div class="lq-head-sub">Typically replies in seconds</div></div>' +
-      '<button class="lq-close" aria-label="Close">&times;</button></div>' +
+      '<div><div class="lq-head-title">' + name + '</div><div class="lq-head-sub">Online now</div></div>' +
+      '<button class="lq-close" aria-label="Close chat"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>' +
       '<div class="lq-msgs"></div>' +
       '<div class="lq-quick"></div>' +
       '<div class="lq-foot">' +
-      '<div class="lq-inputrow"><textarea class="lq-input" rows="1" placeholder="Type your message…"></textarea>' +
+      '<div class="lq-inputrow"><textarea class="lq-input" rows="1" aria-label="Message" placeholder="Write a message"></textarea>' +
       '<button class="lq-send" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M2.5 21.5l19-9.5-19-9.5v7.6L15 12 2.5 13.9z"/></svg></button></div>' +
       (cfg.branding ? '<div class="lq-brand">Powered by <a href="' + BASE + '" target="_blank" rel="noopener">Lead Qualifier</a></div>' : '') +
       '</div>';
@@ -191,11 +210,17 @@
       inputEl.style.height = 'auto';
       inputEl.style.height = Math.min(inputEl.scrollHeight, 96) + 'px';
     });
+    panel.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closePanel();
+    });
   }
 
   function openPanel(trigger) {
     open = true;
     panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+    btn.setAttribute('aria-expanded', 'true');
+    btn.setAttribute('aria-label', 'Close chat');
     unread = 0;
     renderBadge();
     track('opened');
@@ -208,6 +233,10 @@
   function closePanel() {
     open = false;
     panel.classList.remove('open');
+    panel.setAttribute('aria-hidden', 'true');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open chat');
+    btn.focus();
     track('closed');
   }
 
@@ -275,7 +304,7 @@
         renderQuickReplies(null);
         var note = document.createElement('div');
         note.className = 'lq-ended';
-        note.innerHTML = 'This conversation has ended. <br><button type="button">Start a new chat</button>';
+        note.innerHTML = 'This chat is closed.<br><button type="button">Start a new chat</button>';
         note.querySelector('button').addEventListener('click', function () {
           localStorage.removeItem(LS_SESSION);
           sessionToken = '';
@@ -307,7 +336,7 @@
       })
     }).then(function (res) {
       if (res.disabled) {
-        addMessage({ role: 'assistant', content: 'Chat is temporarily unavailable. Please check back soon!' });
+        addMessage({ role: 'assistant', content: 'Chat is temporarily unavailable. Please check back soon.' });
         inputEl.disabled = true; sendBtn.disabled = true;
         return;
       }

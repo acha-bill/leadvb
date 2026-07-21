@@ -59,7 +59,7 @@ export default function Conversations() {
         <div>
           <span className="eyebrow">Live feed</span>
           <h1>Conversations</h1>
-          <p className="sub">Every chat your assistant has had — updated in real time.</p>
+          <p className="sub">Every chat in one place, updated as visitors reply.</p>
         </div>
       </div>
 
@@ -78,15 +78,15 @@ export default function Conversations() {
             </button>
           ))}
         </div>
-        <input type="text" placeholder="Search name, email, page…" value={q} onChange={(e) => { setQ(e.target.value); setPage(1) }} />
+        <input type="text" aria-label="Search conversations" placeholder="Search name, email, or page" value={q} onChange={(e) => { setQ(e.target.value); setPage(1) }} />
       </div>
 
-      <div className="shell">
+      <div className="shell table-card">
         <div className="card" style={{ padding: 6 }}>
           {items.length === 0 ? (
             <div className="empty">
               <b>No conversations yet</b>
-              Install the widget on your site and chats will appear here instantly.
+              Add the widget to your site. New chats will show up here as they happen.
             </div>
           ) : (
             <table className="list">
@@ -102,7 +102,14 @@ export default function Conversations() {
               </thead>
               <tbody>
                 {items.map((c) => (
-                  <tr key={c.id} className="row-link" onClick={() => nav(`/conversations/${c.id}`)}>
+                  <tr
+                    key={c.id}
+                    className="row-link"
+                    onClick={() => nav(`/conversations/${c.id}`)}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') nav(`/conversations/${c.id}`) }}
+                    tabIndex={0}
+                    aria-label={`Open conversation with ${c.contact.name || c.contact.email || 'anonymous visitor'}`}
+                  >
                     <td>
                       <b>{c.contact.name || c.contact.email || 'Anonymous'}</b>
                       {c.contact.name && c.contact.email && (

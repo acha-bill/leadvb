@@ -150,7 +150,7 @@ func (s *Server) handlePutWidgetConfig(w http.ResponseWriter, r *http.Request, a
 		in.Position = "right"
 	}
 	if in.PrimaryColor == "" {
-		in.PrimaryColor = "#4F46E5"
+		in.PrimaryColor = "#2455D6"
 	}
 	if in.Proactive.DelaySeconds < 2 {
 		in.Proactive.DelaySeconds = 2

@@ -57,17 +57,19 @@ func (s *Server) bootstrapAccount(id int64, company, email string) {
 	s.Store.CreateAPIKeys(id)
 	s.Store.UpsertWidgetConfig(id, models.DefaultWidgetConfig(company))
 	s.Store.UpsertRoutingConfig(id, models.DefaultRoutingConfig(email))
-	welcome := fmt.Sprintf(`<div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto">
-<h2>Welcome to Lead Qualifier 🎉</h2>
-<p>Your AI assistant is ready to qualify leads. Three steps to go live:</p>
-<ol>
-<li><b>Describe your ideal customer</b> in plain English (Settings → ICP).</li>
-<li><b>Pick where leads go</b> — email, Slack or your CRM (Settings → Routing).</li>
-<li><b>Paste the widget snippet</b> into your website (Settings → Install).</li>
+	welcome := fmt.Sprintf(`<div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;background:#f6f5f0;padding:32px;color:#18272a">
+<div style="background:#ffffff;border:1px solid #d9d9d2;border-radius:20px;padding:32px">
+<p style="margin:0;color:#2455d6;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px">Lead Qualifier</p>
+<h2 style="margin:12px 0 8px">Your account is ready</h2>
+<p style="color:#526064">Set up your assistant in three short steps:</p>
+<ol style="color:#526064;line-height:1.7">
+<li>Describe your ideal customer in plain English.</li>
+<li>Choose where qualified leads should go.</li>
+<li>Paste the widget script into your website.</li>
 </ol>
-<p><a href="%s" style="color:#4F46E5">Open your dashboard →</a></p>
-</div>`, s.Cfg.DashboardOrigin)
-	delivery.EnqueueSystemEmail(s.Store, id, email, "Welcome to Lead Qualifier — 3 steps to your first qualified lead", welcome, "welcome")
+<p style="margin:28px 0 0"><a href="%s" style="display:inline-block;background:#2455d6;color:#ffffff;text-decoration:none;font-weight:700;padding:12px 18px;border-radius:999px">Open your dashboard</a></p>
+</div></div>`, s.Cfg.DashboardOrigin)
+	delivery.EnqueueSystemEmail(s.Store, id, email, "Your Lead Qualifier account is ready", welcome, "welcome")
 }
 
 func (s *Server) handleLogin(w http.ResponseWriter, r *http.Request) {

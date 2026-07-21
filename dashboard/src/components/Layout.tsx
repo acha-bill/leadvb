@@ -25,16 +25,19 @@ export default function Layout() {
 
   return (
     <div className="app">
+      <a className="skip-link" href="#dashboard-main">Skip to main content</a>
       <aside className="sidebar">
-        <div className="brand"><span className="brand-dot">{I.brand}</span>Lead Qualifier</div>
-        <NavLink to="/" end className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>{I.home}Overview</NavLink>
-        <NavLink to="/conversations" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>{I.chat}Conversations</NavLink>
-        <div className="nav-section">Configure</div>
-        <NavLink to="/settings/icp" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>{I.target}Ideal customer</NavLink>
-        <NavLink to="/settings/routing" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>{I.route}Lead routing</NavLink>
-        <NavLink to="/settings/widget" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>{I.widget}Widget design</NavLink>
-        <NavLink to="/settings/install" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>{I.code}Install &amp; API</NavLink>
-        <NavLink to="/settings/account" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>{I.gear}Plan &amp; account</NavLink>
+        <div className="brand"><span className="brand-dot">{I.brand}</span><span>Lead Qualifier</span></div>
+        <nav className="sidebar-nav" aria-label="Dashboard navigation">
+          <NavLink to="/" end className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>{I.home}<span>Overview</span></NavLink>
+          <NavLink to="/conversations" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>{I.chat}<span>Conversations</span></NavLink>
+          <div className="nav-section">Configure</div>
+          <NavLink to="/settings/icp" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>{I.target}<span>Ideal customer</span></NavLink>
+          <NavLink to="/settings/routing" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>{I.route}<span>Lead routing</span></NavLink>
+          <NavLink to="/settings/widget" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>{I.widget}<span>Widget design</span></NavLink>
+          <NavLink to="/settings/install" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>{I.code}<span>Install &amp; API</span></NavLink>
+          <NavLink to="/settings/account" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>{I.gear}<span>Plan &amp; account</span></NavLink>
+        </nav>
         <div className="sidebar-foot">
           <b>{account?.name}</b>
           {account?.email}
@@ -42,7 +45,7 @@ export default function Layout() {
           <button className="logout-btn" onClick={logout}>Sign out</button>
         </div>
       </aside>
-      <main className="main">
+      <main className="main" id="dashboard-main" tabIndex={-1}>
         <Outlet />
       </main>
     </div>

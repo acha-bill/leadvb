@@ -32,19 +32,19 @@ export default function Login() {
     <AuthShell>
       <span className="eyebrow">Welcome back</span>
       <h1>Sign in</h1>
-      <p className="sub">Your conversations and leads are waiting.</p>
+      <p className="sub">Open your lead queue and pick up where you left off.</p>
       <form onSubmit={submit}>
         <label className="field">
           <span>Email</span>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoFocus />
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoFocus autoComplete="email" />
         </label>
         <label className="field">
           <span>Password</span>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="current-password" />
         </label>
-        {err && <p style={{ color: 'var(--bad)', fontSize: 13 }}>{err}</p>}
+        {err && <p className="form-error" role="alert">{err}</p>}
         <button className="btn" disabled={busy} style={{ width: '100%', justifyContent: 'center' }}>
-          Sign in <span className="btn-orb">→</span>
+          {busy ? 'Signing in...' : 'Sign in'}
         </button>
       </form>
       <div className="auth-alt">

@@ -42,7 +42,7 @@ export default function SettingsInstall() {
       })
       setKeys({ ...keys!, domains: res.domains })
       setDomainsText(res.domains.join('\n'))
-      toast('Domains saved — the plain snippet is now active')
+      toast('Domains saved. The standard snippet is ready to use.')
     } catch (ex) {
       toast(ex instanceof Error ? ex.message : 'Save failed', true)
     } finally {
@@ -68,7 +68,7 @@ export default function SettingsInstall() {
         <div>
           <span className="eyebrow">Go live</span>
           <h1>Install &amp; API</h1>
-          <p className="sub">Register your website, paste one line, done. No keys or credentials ever appear in your site's code.</p>
+          <p className="sub">Register your website, then paste one script tag. The standard setup keeps keys and credentials out of your page source.</p>
         </div>
       </div>
 
@@ -76,7 +76,7 @@ export default function SettingsInstall() {
         <div className="shell fade-up">
           <div className="card">
             <h3>1 · Your website domains</h3>
-            <p className="card-sub">We recognize your site by its domain, so the snippet stays credential-free. Subdomains are covered automatically (registering example.com also covers www).</p>
+            <p className="card-sub">The domain tells us which widget settings to load. Registering example.com also covers its subdomains, including www.</p>
             <label className="field">
               <span>Domains (one per line)</span>
               <textarea
@@ -87,7 +87,7 @@ export default function SettingsInstall() {
               />
             </label>
             <button className="btn" onClick={saveDomains} disabled={busy}>
-              Save domains <span className="btn-orb">✓</span>
+              {busy ? 'Saving...' : 'Save domains'}
             </button>
           </div>
         </div>
@@ -95,16 +95,16 @@ export default function SettingsInstall() {
         <div className="shell fade-up d1">
           <div className="card">
             <h3>2 · Website snippet</h3>
-            <p className="card-sub">Paste before the closing &lt;/body&gt; tag — or into any "custom HTML" box (WordPress, Webflow, Squarespace, Wix).</p>
+            <p className="card-sub">Paste this before the closing &lt;/body&gt; tag or into the custom HTML area in WordPress, Webflow, Squarespace, or Wix.</p>
             {!domainsSaved && (
-              <p style={{ fontSize: 12.5, color: 'var(--warn)', marginTop: 0 }}>
-                Save your domain first — until then, use the keyed snippet below.
+              <p className="inline-note" style={{ marginTop: 0 }}>
+                Save your domain first. Until then, use the keyed snippet below.
               </p>
             )}
             <div className="snippet">{keys.snippet}</div>
-            <div style={{ display: 'flex', gap: 10, marginTop: 14, flexWrap: 'wrap' }}>
+            <div className="action-row" style={{ marginTop: 14 }}>
               <button className="btn" onClick={() => copy(keys.snippet, 'Snippet')} disabled={!domainsSaved}>
-                Copy snippet <span className="btn-orb">⧉</span>
+                Copy snippet
               </button>
               <button className="btn subtle" onClick={() => setShowKeySnippet(!showKeySnippet)}>
                 {showKeySnippet ? 'Hide' : 'Show'} keyed variant
@@ -113,7 +113,7 @@ export default function SettingsInstall() {
             {showKeySnippet && (
               <>
                 <p className="field-hint" style={{ margin: '14px 0 8px' }}>
-                  For pages we can't match by domain (local files, staging hosts, agency multi-tenant embeds). The widget key is a public identifier — it can start chats but can never read conversations or settings.
+                  Use this for pages we cannot match by domain, such as local files, staging hosts, or agency embeds. The widget key can start chats but cannot read conversations or settings.
                 </p>
                 <div className="snippet">{keys.key_snippet}</div>
                 <button className="btn subtle" style={{ marginTop: 10 }} onClick={() => copy(keys.key_snippet, 'Keyed snippet')}>
@@ -127,17 +127,17 @@ export default function SettingsInstall() {
         <div className="shell fade-up d2">
           <div className="card">
             <h3>Keys</h3>
-            <p className="card-sub">The widget key is a public identifier (safe to expose, limited to starting chats). The secret key unlocks the REST API — server-side only, never in a web page.</p>
+            <p className="card-sub">The widget key is a public identifier that can only start chats. The secret key unlocks the REST API and belongs on your server, never in a web page.</p>
             <label className="field">
-              <span>Widget key — public identifier</span>
-              <div style={{ display: 'flex', gap: 10 }}>
+              <span>Widget key, public identifier</span>
+              <div className="key-row">
                 <input type="text" readOnly value={keys.public_key} className="mono" />
                 <button className="btn subtle" onClick={() => copy(keys.public_key, 'Widget key')}>Copy</button>
               </div>
             </label>
             <label className="field">
-              <span>Secret API key — keep private {!account.plan_limits.api && <span className="badge handoff">Professional plan</span>}</span>
-              <div style={{ display: 'flex', gap: 10 }}>
+              <span>Secret API key, keep private {!account.plan_limits.api && <span className="badge handoff">Professional plan</span>}</span>
+              <div className="key-row">
                 <input type="text" readOnly value={revealed ? keys.secret_key : '••••••••••••••••••••••••'} className="mono" />
                 <button className="btn subtle" onClick={() => setRevealed(!revealed)}>{revealed ? 'Hide' : 'Show'}</button>
                 <button className="btn subtle" onClick={() => copy(keys.secret_key, 'Secret key')}>Copy</button>
@@ -150,22 +150,22 @@ export default function SettingsInstall() {
         <div className="shell fade-up d3">
           <div className="card">
             <h3>REST API</h3>
-            <p className="card-sub">For developers and agencies — full docs in the repository's docs/API.md.</p>
+            <p className="card-sub">Developers and agencies can find the full reference in docs/API.md.</p>
             <div className="snippet">{`# Create a session
 curl -X POST ${location.origin}/api/v1/sessions \\
-  -H "Authorization: Bearer ${revealed ? keys.secret_key : 'sk_live_…'}" \\
+  -H "Authorization: Bearer ${revealed ? keys.secret_key : 'sk_live_...'}" \\
   -H "Content-Type: application/json" \\
   -d '{"page_url": "https://example.com/pricing"}'
 
 # Send a visitor message (waits for the AI reply)
 curl -X POST ${location.origin}/api/v1/sessions/SESSION_TOKEN/messages \\
-  -H "Authorization: Bearer ${revealed ? keys.secret_key : 'sk_live_…'}" \\
+  -H "Authorization: Bearer ${revealed ? keys.secret_key : 'sk_live_...'}" \\
   -H "Content-Type: application/json" \\
   -d '{"content": "We need IT support for a 12-person office"}'
 
 # List qualified conversations
 curl "${location.origin}/api/v1/conversations?status=qualified" \\
-  -H "Authorization: Bearer ${revealed ? keys.secret_key : 'sk_live_…'}"`}</div>
+  -H "Authorization: Bearer ${revealed ? keys.secret_key : 'sk_live_...'}"`}</div>
           </div>
         </div>
       </div>

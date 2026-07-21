@@ -32,30 +32,30 @@ export default function Signup() {
 
   return (
     <AuthShell>
-      <span className="eyebrow">14 minutes to live</span>
+      <span className="eyebrow">Get started</span>
       <h1>Create your account</h1>
-      <p className="sub">Your AI assistant starts qualifying leads today.</p>
+      <p className="sub">Set your lead criteria next, then add the assistant to your site.</p>
       <form onSubmit={submit}>
         <label className="field">
           <span>Your name</span>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required autoFocus />
+          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required autoFocus autoComplete="name" />
         </label>
         <label className="field">
           <span>Company</span>
-          <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Acme IT Services" />
+          <input type="text" value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Acme IT Services" autoComplete="organization" />
         </label>
         <label className="field">
           <span>Email</span>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" />
         </label>
         <label className="field">
           <span>Password</span>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} />
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} autoComplete="new-password" />
           <div className="field-hint">At least 8 characters.</div>
         </label>
-        {err && <p style={{ color: 'var(--bad)', fontSize: 13 }}>{err}</p>}
+        {err && <p className="form-error" role="alert">{err}</p>}
         <button className="btn" disabled={busy} style={{ width: '100%', justifyContent: 'center' }}>
-          Create account <span className="btn-orb">→</span>
+          {busy ? 'Creating account...' : 'Create account'}
         </button>
       </form>
       <div className="auth-alt">

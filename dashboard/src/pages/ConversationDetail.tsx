@@ -36,7 +36,7 @@ export default function ConversationDetail() {
   async function override(status: 'hot' | 'cold') {
     try {
       await api.post(`/api/conversations/${id}/override`, { status, note })
-      toast(`Marked ${status} — the AI will learn from this`)
+      toast(`Marked ${status}. The assistant will use your note next time.`)
       setShowOverride(false)
       setNote('')
       load()
@@ -74,14 +74,14 @@ export default function ConversationDetail() {
     <>
       <div className="page-head">
         <div>
-          <Link to="/conversations" style={{ fontSize: 13, color: 'var(--muted)', textDecoration: 'none' }}>← All conversations</Link>
+          <Link to="/conversations" className="back-link">← All conversations</Link>
           <h1 style={{ marginTop: 8 }}>{conv.contact.name || conv.contact.email || 'Anonymous visitor'}</h1>
           <p className="sub">
             <StatusBadge status={conv.status} /> {conv.override_status && <StatusBadge status={conv.override_status} />}{' '}
-            · started {timeAgo(conv.started_at)} · {conv.message_count} messages
+            <span aria-hidden="true"> · </span>started {timeAgo(conv.started_at)}<span aria-hidden="true"> · </span>{conv.message_count} messages
           </p>
         </div>
-        <div style={{ display: 'flex', gap: 10 }}>
+        <div className="action-row">
           {!showOverride && (
             <button className="btn ghost" onClick={() => setShowOverride(true)}>Override verdict</button>
           )}
@@ -93,13 +93,13 @@ export default function ConversationDetail() {
         <div className="shell" style={{ marginBottom: 20 }}>
           <div className="card">
             <h3>Manual override</h3>
-            <p className="card-sub">Correct the AI's verdict. Your note is fed back into future qualification prompts.</p>
+            <p className="card-sub">Change the verdict and add enough context to explain what the assistant missed.</p>
             <label className="field">
-              <span>Why? (optional, improves the AI)</span>
-              <input type="text" value={note} onChange={(e) => setNote(e.target.value)} placeholder="e.g. Budget was fine — they meant $2k monthly, not total" />
+              <span>Reason (optional)</span>
+              <input type="text" value={note} onChange={(e) => setNote(e.target.value)} placeholder="For example: They meant $2,000 monthly, not total" />
             </label>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button className="btn" onClick={() => override('hot')}>Mark hot lead 🔥</button>
+            <div className="action-row">
+              <button className="btn" onClick={() => override('hot')}>Mark as hot</button>
               <button className="btn ghost" onClick={() => override('cold')}>Mark cold</button>
               <button className="btn subtle" onClick={() => setShowOverride(false)}>Cancel</button>
             </div>
@@ -123,12 +123,12 @@ export default function ConversationDetail() {
               ))}
             </div>
             {canReply && (
-              <form onSubmit={sendReply} style={{ display: 'flex', gap: 10, marginTop: 14 }}>
+              <form onSubmit={sendReply} className="chat-reply">
                 <input
                   type="text"
                   value={reply}
                   onChange={(e) => setReply(e.target.value)}
-                  placeholder={conv.status === 'handoff' ? 'The visitor asked for a human — reply here…' : 'Jump in as yourself…'}
+                  placeholder={conv.status === 'handoff' ? 'The visitor asked for a person. Reply here.' : 'Reply as yourself'}
                   style={{ flex: 1 }}
                 />
                 <button className="btn">Send</button>
@@ -137,7 +137,7 @@ export default function ConversationDetail() {
           </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div className="stack">
           <div className="shell">
             <div className="card">
               <h3>Verdict</h3>
@@ -156,7 +156,7 @@ export default function ConversationDetail() {
                       <div className="bant-track">
                         <div className="bant-fill" style={{ width: `${v ?? 0}%` }} />
                       </div>
-                      <span className="bant-val tnum">{v ?? '—'}</span>
+                      <span className="bant-val tnum">{v ?? 'Not set'}</span>
                     </div>
                   )
                 })}
@@ -171,12 +171,12 @@ export default function ConversationDetail() {
             <div className="card">
               <h3>Contact</h3>
               <dl className="kv" style={{ marginTop: 10 }}>
-                <dt>Name</dt><dd>{conv.contact.name || '—'}</dd>
-                <dt>Email</dt><dd>{conv.contact.email ? <a href={`mailto:${conv.contact.email}`}>{conv.contact.email}</a> : '—'}</dd>
-                <dt>Phone</dt><dd>{conv.contact.phone || '—'}</dd>
-                <dt>Company</dt><dd>{conv.contact.company || '—'}</dd>
-                <dt>Page</dt><dd style={{ fontSize: 12 }}>{conv.page_url || '—'}</dd>
-                <dt>Language</dt><dd>{conv.language || '—'}</dd>
+                <dt>Name</dt><dd>{conv.contact.name || 'Not provided'}</dd>
+                <dt>Email</dt><dd>{conv.contact.email ? <a href={`mailto:${conv.contact.email}`}>{conv.contact.email}</a> : 'Not provided'}</dd>
+                <dt>Phone</dt><dd>{conv.contact.phone || 'Not provided'}</dd>
+                <dt>Company</dt><dd>{conv.contact.company || 'Not provided'}</dd>
+                <dt>Page</dt><dd style={{ fontSize: 12 }}>{conv.page_url || 'Not recorded'}</dd>
+                <dt>Language</dt><dd>{conv.language || 'Not recorded'}</dd>
               </dl>
               {conv.override_note && (
                 <p style={{ fontSize: 12.5, color: 'var(--warn)', marginTop: 12 }}>

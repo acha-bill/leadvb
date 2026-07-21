@@ -35,9 +35,9 @@ export default function SettingsICP() {
     <>
       <div className="page-head">
         <div>
-          <span className="eyebrow">Qualification brain</span>
+          <span className="eyebrow">Qualification rules</span>
           <h1>Ideal customer profile</h1>
-          <p className="sub">Describe your perfect customer in plain English. The AI turns this into qualifying questions and a score.</p>
+          <p className="sub">Describe the customers you want and the deals you would turn down. The assistant uses this to choose questions and score each conversation.</p>
         </div>
       </div>
 
@@ -45,19 +45,19 @@ export default function SettingsICP() {
         <div className="shell span-2 fade-up">
           <div className="card">
             <h3>Who do you want to work with?</h3>
-            <p className="card-sub">Budgets, company size, decision authority, timeline, industries to avoid — anything goes.</p>
+            <p className="card-sub">Include useful details such as budget, company size, decision authority, timing, and industries you avoid.</p>
             <textarea
               rows={9}
               value={icp.description}
               onChange={(e) => setIcp({ ...icp, description: e.target.value })}
               placeholder={EXAMPLE}
             />
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 14 }}>
+            <div className="action-row" style={{ justifyContent: 'space-between', marginTop: 14 }}>
               <button className="btn subtle" onClick={() => setIcp({ ...icp, description: EXAMPLE })}>
                 Use example
               </button>
               <button className="btn" onClick={save} disabled={busy}>
-                Save profile <span className="btn-orb">✓</span>
+                {busy ? 'Saving...' : 'Save profile'}
               </button>
             </div>
           </div>
@@ -68,7 +68,7 @@ export default function SettingsICP() {
             <h3>Scoring</h3>
             <p className="card-sub">A lead is qualified when its score clears the threshold.</p>
             <label className="field">
-              <span>Qualification threshold — {icp.threshold}</span>
+              <span>Qualification threshold: {icp.threshold}</span>
               <input
                 type="number"
                 min={1}
@@ -92,7 +92,7 @@ export default function SettingsICP() {
                 <span className="tnum" style={{ fontSize: 12.5, fontWeight: 700, textAlign: 'right' }}>{icp.weights[k]}</span>
               </div>
             ))}
-            <div className="field-hint">Relative importance of each BANT dimension.</div>
+            <div className="field-hint">How much each part contributes to the final score.</div>
           </div>
         </div>
       </div>

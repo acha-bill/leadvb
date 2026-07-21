@@ -13,9 +13,9 @@ const Check = (
 )
 
 const POINTS = [
-  ['Qualifies while you sleep', 'Budget, authority, need and timeline — asked naturally, scored 0–100.'],
-  ['Only real leads reach you', 'Email, Slack or your CRM. Full transcript attached, every time.'],
-  ['You stay in control', 'See every chat, override any verdict — the AI learns from you.'],
+  ['Ask the same good questions every time', 'Set your criteria once. The assistant checks budget, authority, need, timeline, and fit.'],
+  ['Get the context before you reply', 'Qualified leads arrive with contact details, a score, and the full conversation.'],
+  ['Correct the calls you disagree with', 'Review any chat and change the verdict. Your note becomes context for the next one.'],
 ]
 
 export default function AuthShell({ children }: { children: ReactNode }) {
@@ -28,7 +28,7 @@ export default function AuthShell({ children }: { children: ReactNode }) {
               <span className="auth-brand-dot">{ChatIcon}</span>
               Lead Qualifier
             </div>
-            <h2>Turn website visitors into qualified leads.</h2>
+            <h2>Start with the website leads that are ready to talk.</h2>
             <ul className="auth-points">
               {POINTS.map(([title, sub]) => (
                 <li key={title}>
@@ -40,11 +40,11 @@ export default function AuthShell({ children }: { children: ReactNode }) {
                 </li>
               ))}
             </ul>
-            <div className="auth-side-foot">Live in ~14 minutes · built for small B2B teams in Canada &amp; the US</div>
+            <div className="auth-side-foot">Set up takes about 14 minutes. Installation is one script tag.</div>
           </div>
         </aside>
-        <div className="shell auth-card">
-          <div className="card auth-card-inner">
+        <div className="auth-card">
+          <div className="auth-card-inner">
             <div className="auth-brand mobile-only">
               <span className="auth-brand-dot">{ChatIcon}</span>
               Lead Qualifier
