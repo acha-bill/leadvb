@@ -2,6 +2,8 @@
 
 An always-on AI assistant for small B2B service businesses. It chats with website visitors, qualifies them against a plain-English ideal customer profile (BANT + custom criteria), and delivers only qualified leads — with the full transcript — to email, Slack, or any CRM via webhook.
 
+Competitor: https://zappiqai.com/
+
 ## What's in the box
 
 | Folder | Application | Stack |
